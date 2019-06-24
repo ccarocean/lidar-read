@@ -50,7 +50,7 @@ def main():
             p = lidar_packet(hour, t_vec, meas_vec)
             # Send API post
             while not send(url, keys[loc], p):
-                print('attempt')
+                print('Packet sent.')
 
     finally:
         led.set_low()
