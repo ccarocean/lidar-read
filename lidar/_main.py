@@ -38,6 +38,7 @@ def main():
 
             while dt.datetime.utcnow() < end:
                 t, meas = q.get()
+                print('Time:', t, ', Measurement:', meas)
                 meas_vec.append(meas)
                 t_vec.append((t-hour).total_seconds() * 10**6)
                 if (dt.datetime.now() - led_timer).total_seconds() >= 1:
