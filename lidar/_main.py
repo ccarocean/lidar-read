@@ -14,7 +14,6 @@ def read_key(fname):
 
 
 def main():
-    print('hi')
     led = LED(15)
 
     led.switch()
@@ -24,7 +23,6 @@ def main():
     q = Queue()
     t = Thread(target=collect_data, args=(q,))
     t.start()
-    print(t.is_alive())
 
     #url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc
     url = 'http://127.0.0.1:5000/lidar/' + loc
