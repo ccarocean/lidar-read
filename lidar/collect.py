@@ -6,6 +6,7 @@ from .lidar import Lidar
 def collect(q):
     lid = Lidar(1, 0x62)
     while True:
+        print('hello')
         t = dt.datetime.utcnow()
         meas = lid.read_meas()
         print(meas)
