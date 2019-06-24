@@ -14,7 +14,7 @@ def read_key(fname):
 
 
 def main():
-    led = LED(15)
+    led = LED(16)
 
     led.switch()
     loc = 'harv'
@@ -33,8 +33,8 @@ def main():
             now = dt.datetime.utcnow()
             led_timer = now
             hour = dt.datetime(now.year, now.month, now.day, now.hour)
-            min = dt.datetime(now.year, now.month, now.day, now.hour, now.minute)
-            end = min + dt.timedelta(minutes=1)
+            minute = dt.datetime(now.year, now.month, now.day, now.hour, now.minute)
+            end = minute + dt.timedelta(minutes=1)
             print('Now: ', now)
             print('End: ', end)
 
