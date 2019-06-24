@@ -3,7 +3,7 @@ import time
 from .lidar import Lidar
 
 
-def collect(q):
+def collect_data(q):
     lid = Lidar(1, 0x62)
     while True:
         print('hello')

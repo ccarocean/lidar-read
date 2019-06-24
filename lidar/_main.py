@@ -3,7 +3,7 @@ from queue import Queue
 from threading import Thread
 from .led import LED
 from .packet import lidar_packet
-from .collect import collect
+from .collect import collect_data
 from .api import send
 
 
@@ -16,14 +16,16 @@ def read_key(fname):
 def main():
     print('hi')
     led = LED(15)
+
     led.switch()
     loc = 'harv'
     keys = {'harv': read_key('harv.key')}
 
     q = Queue()
-    Thread(target=collect, args=(q,))
+    t = Thread(target=collect_data, args=(q,))
+    print(t.is_alive())
 
-    url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc
+    #url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc
     url = 'http://127.0.0.1:5000/lidar/' + loc
 
     try:
@@ -42,7 +44,9 @@ def main():
                 t, meas = q.get()
                 meas_vec.append(meas)
                 t_vec.append((t-hour).total_seconds() * 10**6)
-                led.switch()
+                if (dt.datetime.now() - led_timer).total_seconds() >= 1:
+                    led.switch()
+                    led_timer = dt.datetime.now()
                 q.task_done()
             # Get packet to send
             p = lidar_packet(hour, t_vec, meas_vec)
@@ -51,4 +55,5 @@ def main():
                 print('attempt')
 
     finally:
-        led.set_low()
+        pass
+        #led.set_low()
