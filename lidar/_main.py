@@ -23,6 +23,7 @@ def main():
 
     q = Queue()
     t = Thread(target=collect_data, args=(q,))
+    t.start()
     print(t.is_alive())
 
     #url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc
