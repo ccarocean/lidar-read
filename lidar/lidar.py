@@ -5,9 +5,9 @@ class Lidar:
     def __init__(self, address):
         self.bus = smbus.SMBus(1)
         self.address = address
-        self.bus.write_data(self.address, 0x02, 0xff)
-        self.bus.write_data(self.address, 0x04, 0x88)
-        self.bus.write_data(self.address, 0x00, 0x04)
+        self.bus.write_byte_data(self.address, 0x02, 0xff)
+        self.bus.write_byte_data(self.address, 0x04, 0x88)
+        self.bus.write_byte_data(self.address, 0x00, 0x04)
         self.countlist = []
         
     def read_meas(self):
