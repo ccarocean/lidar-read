@@ -37,6 +37,8 @@ def main():
             print('End: ', end)
 
             while dt.datetime.utcnow() < end:
+                print('Now: ', now)
+                print('End: ', end)
                 t, meas = q.get()
                 meas_vec.append(meas)
                 t_vec.append((t-hour).total_seconds() * 10**6)
