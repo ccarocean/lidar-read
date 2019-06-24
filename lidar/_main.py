@@ -14,7 +14,7 @@ def read_key(fname):
 
 
 def main():
-    led = LED(0)
+    led = LED(2)
 
     led.switch()
     loc = 'harv'
@@ -35,8 +35,6 @@ def main():
             hour = dt.datetime(now.year, now.month, now.day, now.hour)
             minute = dt.datetime(now.year, now.month, now.day, now.hour, now.minute)
             end = minute + dt.timedelta(minutes=1)
-            print('Now: ', now)
-            print('End: ', end)
 
             while dt.datetime.utcnow() < end:
                 t, meas = q.get()
@@ -49,8 +47,10 @@ def main():
             # Get packet to send
             p = lidar_packet(hour, t_vec, meas_vec)
             # Send API post
+
+            print("Packet sending at", dt.datetime.utcnow())
             while not send(url, keys[loc], p):
-                print('Packet sent.')
+                print('Issue sending packet.')
 
     finally:
         led.set_low()
