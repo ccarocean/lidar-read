@@ -3,6 +3,7 @@ import smbus
 
 class Lidar:
     def __init__(self, address):
+        print('Lidar class instance created')
         self.bus = smbus.SMBus(1)
         self.address = address
         self.bus.write_byte_data(self.address, 0x02, 0xff)
