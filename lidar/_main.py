@@ -18,7 +18,7 @@ def main():
     led = LED(15)
     led.switch()
     loc = 'harv'
-    keys = {'harv': read_key('../../lidar/harv.key')}
+    keys = {'harv': read_key('harv.key')}
 
     q = Queue()
     Thread(target=collect, args=(q,))
