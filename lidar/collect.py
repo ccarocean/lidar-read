@@ -1,6 +1,6 @@
 import datetime as dt
 import time
-from .lidar import Lidar
+from lidar import Lidar
 
 
 def collect(q):

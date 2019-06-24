@@ -1,10 +1,10 @@
 import datetime as dt
 from queue import Queue
 from threading import Thread
-from .led import LED
-from .packet import lidar_packet
-from .collect import collect
-from .api import send, sign
+from led import LED
+from packet import lidar_packet
+from collect import collect
+from api import send
 
 
 def read_key(fname):
