@@ -33,6 +33,7 @@ def main():
         while True:
             t_vec, meas_vec = [], []
             now = dt.datetime.utcnow()
+            led_timer = now
             hour = dt.datetime(now.year, now.month, now.day, now.hour)
             min = dt.datetime(now.year, now.month, now.day, now.hour, now.minute)
             end = min + dt.timedelta(minutes=1)
