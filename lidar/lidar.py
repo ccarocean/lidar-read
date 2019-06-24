@@ -2,7 +2,7 @@ import smbus
 
 
 class Lidar:
-    def __init__(self, address, led_pin):
+    def __init__(self, address):
         self.bus = smbus.SMBus(1)
         self.address = address
         self.bus.write_data(self.address, 0x02, 0xff)
