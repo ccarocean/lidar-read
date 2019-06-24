@@ -15,6 +15,7 @@ def read_key(fname):
 
 def main():
     led = LED(15)
+    led.switch()
     loc = 'harv'
     keys = {'harv': read_key('../../lidar/harv.key')}
 
@@ -27,9 +28,13 @@ def main():
         while True:
             t_vec, meas_vec = [], []
             now = dt.datetime.utcnow()
-            minute = dt.datetime(now.year, now.month, now.day, now.hour, now.minute)
             hour = dt.datetime(now.year, now.month, now.day, now.hour)
-            while dt.datetime.utcnow() < (minute + dt.timedelta(minutes=1)):
+            min = dt.datetime(now.year, now.month, now.day, now.hour, now.minute)
+            end = min + dt.timedelta(minutes=1)
+            print('Now: ', now)
+            print('End: ', end)
+            
+            while dt.datetime.utcnow() < end:
                 t, meas = q.get()
                 meas_vec.append(meas)
                 t_vec.append((t-hour).total_seconds() * 10**6)
