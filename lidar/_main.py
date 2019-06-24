@@ -45,6 +45,7 @@ def main():
                     led_timer = dt.datetime.now()
                 q.task_done()
             # Get packet to send
+            print(meas_vec)
             p = lidar_packet(hour, t_vec, meas_vec)
             # Send API post
 
