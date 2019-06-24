@@ -48,7 +48,7 @@ def main():
                 q.task_done()
             # Get packet to send
             p = lidar_packet(hour, t_vec, meas_vec)
-            # For now write to file - TODO: send API post
+            # Send API post
             while not send(url, keys[loc], p):
                 print('attempt')
 

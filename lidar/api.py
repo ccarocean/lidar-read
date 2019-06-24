@@ -7,7 +7,7 @@ def send(url, key, data):
     headers = {"Content-Type": "application/octet-stream",
                "Bearer": sign(key)} #decode to unicode?
     upload = requests.post(url, data=data, headers=headers)
-    if upload.status_code != requests.codes.ok:
+    if upload.status_code != 201:
         return False
     return True
 
