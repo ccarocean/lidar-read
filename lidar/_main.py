@@ -4,7 +4,7 @@ from threading import Thread
 from .led import LED
 from .packet import lidar_packet
 from .collect import collect_data
-from .api import send
+from .api import call_send
 
 
 def read_key(fname):
@@ -49,8 +49,8 @@ def main():
             # Send API post
 
             print("Packet sending at", dt.datetime.utcnow())
-            while not send(url, keys[loc], p):
-                print('Issue sending packet.')
+            t2 = Thread(target=call_send, args=(url, keys[loc], p,))
+            t2.start()
 
     finally:
         led.set_low()

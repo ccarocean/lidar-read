@@ -3,6 +3,11 @@ import jwt
 import datetime as dt
 
 
+def call_send(url, key, data):
+    while not send(url, key, data):
+        pass
+
+
 def send(url, key, data):
     headers = {"Content-Type": "application/octet-stream",
                "Bearer": sign(key)}
