@@ -24,6 +24,7 @@ def main():
     Thread(target=collect, args=(q,))
 
     url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc
+    url = 'http://127.0.0.1:5000/lidar/' + loc
 
     try:
         while True:
