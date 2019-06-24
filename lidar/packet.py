@@ -8,4 +8,5 @@ def lidar_packet(dayhour, microseconds, measurements):
     header = struct.pack('<q', time_header)
     data = b''
     data = [data + struct.pack('<LH', int(i), int(j)) for i, j in zip(microseconds, measurements)]
-    return header + data
+    print(data)
+    return header + data[0]
