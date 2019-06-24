@@ -33,7 +33,7 @@ def main():
             end = min + dt.timedelta(minutes=1)
             print('Now: ', now)
             print('End: ', end)
-            
+
             while dt.datetime.utcnow() < end:
                 t, meas = q.get()
                 meas_vec.append(meas)
