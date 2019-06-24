@@ -14,7 +14,7 @@ def read_key(fname):
 
 
 def main():
-    led = LED(2)
+    led = LED(15)
 
     led.switch()
     loc = 'harv'

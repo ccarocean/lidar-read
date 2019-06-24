@@ -16,20 +16,21 @@ def read_version(filename):
 
 
 setup(
-    name='ublox',
-    version=read_version('ublox/__init__.py'),
+    name='lidar-read',
+    version=read_version('lidar/__init__.py'),
     author='Adam Dodge',
     author_email='Adam.Dodge@Colorado.edu',
-    description='Set of tools for receiving data from F9P GPS. ',
+    description='Set of tools for receiving data from LIDAR-Lite v3HP. ',
     long_description=read('README.rst'),
-    scripts=['bin/ublox'],
+    scripts=['bin/lidar-read'],
     license='custom',
-    url='https://github.com/ccarocean/ublox',
+    url='https://github.com/ccarocean/lidar-read',
     packages=find_packages(),
     install_requires=[
-        'pyserial',
-        'astropy',
-        'dataclasses;python_version=="3.6"',
+        'pyjwt[crypto]',
+        'requests',
+        'smbus',
+        'RPi.GPIO'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
