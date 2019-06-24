@@ -4,6 +4,7 @@ from .lidar import Lidar
 
 
 def collect_data(q):
+    print('hello')
     lid = Lidar(1, 0x62)
     while True:
         print('hello')
