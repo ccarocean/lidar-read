@@ -27,19 +27,31 @@ def main():
     #url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc  # Web server location
     url = 'http://127.0.0.1:5000/lidar/' + loc
 
+    next_meas, next_t = []
+
+    led_timer = dt.datetime.utcnow()
+
     try:
         while True:
-            t_vec, meas_vec = [], []  # Initialize vectors
+            t_vec, meas_vec = next_t, next_meas  # Initialize vectors
             now = dt.datetime.utcnow()
-            led_timer = now
             hour = dt.datetime(now.year, now.month, now.day, now.hour)  # datetime of this hour
             minute = dt.datetime(now.year, now.month, now.day, now.hour, now.minute)  # datetime of this minute
             end = minute + dt.timedelta(minutes=1)  # end of current packet of data
+            prev = 0
+            next_t, next_meas = [], []
             # Take data until minute is over
             while dt.datetime.utcnow() < end:
                 t, meas = q.get()  # Get data from queue
-                meas_vec.append(meas)
-                t_vec.append((t-hour).total_seconds() * 10**6)  # Append microseconds since the beginning of the hour
+                if t.second > prev:
+                    meas_vec.append(meas)
+                    t_vec.append((t-hour).total_seconds() * 10**6)  # Append microseconds since beginning of the hour
+                    prev = t.second
+                else:
+                    hour = dt.datetime(t.year, t.month, t.day, t.hour)
+                    next_t.append((t-hour).total_seconds() * 10**6)
+                    next_meas.append(meas)
+                    break
                 if (dt.datetime.now() - led_timer).total_seconds() >= 1:  # Switch lidar state every second
                     led.switch()
                     led_timer = dt.datetime.now()
