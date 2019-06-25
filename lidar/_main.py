@@ -44,7 +44,7 @@ def main():
             while dt.datetime.utcnow() < end:
                 t, meas = q.get()  # Get data from queue
                 print(t.second, prev)
-                if t.second > prev:
+                if t.second >= prev:
                     meas_vec.append(meas)
                     t_vec.append((t-hour).total_seconds() * 10**6)  # Append microseconds since beginning of the hour
                     prev = t.second
