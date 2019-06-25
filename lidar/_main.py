@@ -27,7 +27,7 @@ def main():
     #url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc  # Web server location
     url = 'http://127.0.0.1:5000/lidar/' + loc
 
-    next_meas, next_t = []
+    next_meas, next_t = [], []
 
     led_timer = dt.datetime.utcnow()
 
