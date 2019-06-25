@@ -2,11 +2,6 @@ cods.colorado.edu
 
 /api/<project>/<endpoint>
 
-request.post binary blob
-    DONT 64 bit encode
-
-send station identifier in binary blob
-
 Receive:
 flask_restful
 temporary: local python web server
@@ -18,18 +13,8 @@ http://cods.colorado.edu:<port number>/<project>/<endpoint>
 https://cods.colorado.edu/<project>/<endpoint>
 finally
 
-Always send back 404 if
-
 Dont want it to be public - establish authorization
     jwt is one way - too large
-    python libraries let you sign something
-        generate random set of data 128 bytes (include station id)
-        encrypt and sign it with internal key
-        look up algorithms used with jwt, find library that uses same algorithm
-        each station sends it as authorization
-            'Bearer' header is authorization
-        flask: abort(401) is unauthorized
-        anything but post: 404
 
 headers = {"Content-Type": "application/octet-stream"}
 upload = requests.post(URL, data=data, headers=headers)

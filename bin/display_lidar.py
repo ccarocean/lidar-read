@@ -5,6 +5,8 @@ import time
 import smbus
 
 
+# This is a testing script for receiving lidar data and displaying it to the screen.
+
 class Lidar:
     def __init__(self, address):
         self.bus = smbus.SMBus(1)
