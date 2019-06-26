@@ -29,7 +29,7 @@ def send(url, key, data):
                "Bearer": sign(key)}  # Signature using private key
     try:
         upload = requests.post(url, data=data, headers=headers)  # Send API post request
-    except ConnectionRefusedError:
+    except:
         return False
     if upload.status_code != 201:
         return False
