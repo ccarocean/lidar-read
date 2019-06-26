@@ -14,7 +14,7 @@ def call_send(url, key, data):
         count += 1
     if count == 100:
         try:
-            with open(fname, 'a+') as f:
+            with open(fname, 'ba+') as f:
                 f.write(data)
             print("Failed Connection. Saved to " + fname)
         except FileNotFoundError:
