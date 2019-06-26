@@ -23,7 +23,7 @@ def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('-l', '--location', type=str, default='harv', help='GPS location. Default is harv.')
-    parser.add_argument('--led', type=int, default=15, help='LED pin. Default is 15. ')
+    parser.add_argument('--led', type=int, default=21, help='LED pin. Default is 21. ')
     args = parser.parse_args()
 
     led = LED(args.led)  # initialize LED with pin 20
