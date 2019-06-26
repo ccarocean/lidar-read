@@ -2,13 +2,24 @@ import requests
 import jwt
 import datetime as dt
 import struct
+import sys
 
 
 def call_send(url, key, data):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
     runs until it receives a good code from the server. """
-    while not send(url, key, data):
-        pass
+    count = 0
+    fname = '/home/ccaruser/not-sent/lidar.bin'
+    while not send(url, key, data) and count < 100:
+        count += 1
+    if count == 100:
+        try:
+            with open(fname, 'a+') as f:
+                f.write(data)
+            print("Failed Connection. Saved to " + fname)
+        except FileNotFoundError:
+            print('Not Sent Directory does not exist. ')
+            sys.exit(0)
 
 
 def send(url, key, data):
@@ -16,7 +27,10 @@ def send(url, key, data):
     it receives any other code. """
     headers = {"Content-Type": "application/octet-stream",  # Binary data
                "Bearer": sign(key)}  # Signature using private key
-    upload = requests.post(url, data=data, headers=headers)  # Send API post request
+    try:
+        upload = requests.post(url, data=data, headers=headers)  # Send API post request
+    except ConnectionError:
+        return False
     if upload.status_code != 201:
         return False
     return True
