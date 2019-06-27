@@ -12,7 +12,7 @@ def save_old(url, key):
         f.seek(0)
         for i in data:
             if not call_send(url, key, i):
-                f.write(i + os.linesep)
+                f.write(i + b'\n')
         f.truncate()
 
 
@@ -26,12 +26,13 @@ def call_send(url, key, data):
     if count == 100:
         try:
             with open(fname, 'a+b') as f:
-                f.write(data + os.linesep)
+                f.write(data + b'\n')
             print("Failed Connection. Saved to " + fname)
             return False
         except FileNotFoundError:
             print('Not Sent Directory does not exist. ')
             os._exit(1)
+    print("Packet sent at", dt.datetime.utcnow())
     return True
 
 
