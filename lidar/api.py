@@ -5,6 +5,17 @@ import struct
 import os
 
 
+def save_old(url, key):
+    fname = '/home/ccaruser/not-sent/lidar.bin'
+    with open(fname, 'rb') as f:
+        data = f.readlines()
+        f.seek(0)
+        for i in data:
+            if not call_send(url, key, i):
+                f.write(i + os.linesep)
+        f.truncate()
+
+
 def call_send(url, key, data):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
     runs until it receives a good code from the server. """
@@ -14,12 +25,14 @@ def call_send(url, key, data):
         count += 1
     if count == 100:
         try:
-            with open(fname, 'ba+') as f:
-                f.write(data + '\n')
+            with open(fname, 'a+b') as f:
+                f.write(data + os.linesep)
             print("Failed Connection. Saved to " + fname)
+            return False
         except FileNotFoundError:
             print('Not Sent Directory does not exist. ')
             os._exit(1)
+    return True
 
 
 def send(url, key, data):
