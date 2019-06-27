@@ -43,7 +43,7 @@ def call_send(url, key, data, num_meas):
             if ind >= len(d):
                 break
             n = struct.unpack('<H', d[ind-2:ind])[0]
-
+    print('number of measurements current:', num_meas)
     while not send(url, key, data) and count < 100:
         count += 1
     if count == 100:
