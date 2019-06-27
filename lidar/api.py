@@ -11,16 +11,17 @@ def save_old(url, key):
         data = f.read()
         f.seek(0)
 
-        n = struct.unpack('<H', data[0:2])
-        count = 2
-        while count + (n * 6) + 8 < len(data):
-            if not call_send(url, key, data[count:count+8+6*n]):
-                f.write(data[count:count+8+6*n] + b'\n')
+    with open(fname, 'w') as f:
+        f.write('')
 
-            count = count+8+6*n+2
-            n = struct.unpack('<H', data[count-2:count])
-        
-        f.truncate()
+    n = struct.unpack('<H', data[0:2])[0]
+    count = 2
+    while count + 6*n + 8 < len(data):
+        call_send(url, key, data[count:count+8+6*n])
+        count = count+8+6*n+2
+        n = struct.unpack('<H', data[count-2:count])
+
+    f.truncate()
 
 
 def call_send(url, key, data, num_meas):
