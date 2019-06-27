@@ -6,6 +6,7 @@ from threading import Thread
 from .led import LED
 from .collect import collect_data
 from .api import call_send, lidar_packet
+from .save import save_lidar
 
 
 def read_key(fname):
@@ -39,6 +40,8 @@ def main():
     # url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc  # Web server location
     url = 'http://127.0.0.1:5000/lidar/' + loc
 
+    data_dir = '/home/ccaruser/data2'
+
     led_timer = dt.datetime.utcnow()
 
     t = None
@@ -69,8 +72,11 @@ def main():
             p = lidar_packet(hour, t_vec, meas_vec)
 
             # Send API post in thread
-            t2 = Thread(target=call_send, args=(url, keys[loc], p, len(meas_vec)))
+            t2 = Thread(target=call_send, args=(url, keys[loc], p, len(meas_vec),))
             t2.start()
+
+            t3 = Thread(target=save_lidar, args=(p, data_dir, loc,))
+            t3.start()
 
     finally:
         # Turn led off when program ends
