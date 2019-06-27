@@ -24,7 +24,7 @@ def save_old(url, key):
         count = count+8+6*n+2
         if count >= len(data):
             break
-        n = struct.unpack('<H', data[count-2:count])
+        n = struct.unpack('<H', data[count-2:count])[0]
 
     f.truncate()
 
