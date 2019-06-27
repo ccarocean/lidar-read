@@ -22,6 +22,8 @@ def save_old(url, key):
     while count + 6*n + 8 < len(data):
         call_send(url, key, data[count:count+8+6*n], n)
         count = count+8+6*n+2
+        if count >= len(data):
+            break
         n = struct.unpack('<H', data[count-2:count])
 
     f.truncate()
