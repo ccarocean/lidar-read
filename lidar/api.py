@@ -15,7 +15,7 @@ def call_send(url, key, data):
     if count == 100:
         try:
             with open(fname, 'ba+') as f:
-                f.write(data)
+                f.write(data + '\n')
             print("Failed Connection. Saved to " + fname)
         except FileNotFoundError:
             print('Not Sent Directory does not exist. ')
@@ -49,10 +49,9 @@ def lidar_packet(dayhour, microseconds, measurements):
     data = b''
 
     for i, j in zip(microseconds, measurements):
-        if i < 2**32:
-            print(i, j)
+        if i > 0:
             data = data + struct.pack('<LH', int(i), int(j))  # pack each measurement
         else:
-            print(i, j)
+            print('Negative time:', i, j)
             os._exit(1)
     return header + data

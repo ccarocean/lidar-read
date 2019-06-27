@@ -33,8 +33,8 @@ def main():
     keys = {'harv': read_key('harv.key')}
 
     q = Queue()  # initialize queue for receiving lidar data
-    t = Thread(target=collect_data, args=(q,))  # start thread for data collection
-    t.start()
+    th = Thread(target=collect_data, args=(q,))  # start thread for data collection
+    th.start()
 
     # url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc  # Web server location
     url = 'http://127.0.0.1:5000/lidar/' + loc
@@ -42,6 +42,8 @@ def main():
     next_meas, next_t = [], []
 
     led_timer = dt.datetime.utcnow()
+
+    t = None
 
     try:
         while True:
@@ -53,8 +55,9 @@ def main():
             prev = 0
             next_t, next_meas = [], []
             # Take data until minute is over
-            while dt.datetime.utcnow() < end:
+            if not t:
                 t, meas = q.get(timeout=2)  # Get data from queue
+            while t < end:
                 if t.second >= prev:
                     meas_vec.append(meas)
                     t_vec.append((t-hour).total_seconds() * 10**6)  # Append microseconds since beginning of the hour
@@ -68,6 +71,7 @@ def main():
                     led.switch()
                     led_timer = dt.datetime.utcnow()
                 q.task_done()
+                t, meas = q.get(timeout=2)  # Get data from queue
 
             # Put data in byte packet
             p = lidar_packet(hour, t_vec, meas_vec)
