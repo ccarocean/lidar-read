@@ -38,6 +38,7 @@ def call_send(url, key, data, num_meas):
             while not send(url, key, d[ind:ind+8+6*n]) and count < 100:
                 count += 1
             if count == 100:
+                print("woo")
                 write_unsent(fname, n, d[ind:ind+8+6*n])
             ind = ind+8+6*n+2
             if ind >= len(d):
