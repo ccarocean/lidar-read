@@ -8,15 +8,22 @@ import os
 def save_old(url, key):
     fname = '/home/ccaruser/not-sent/lidar.bin'
     with open(fname, 'r+b') as f:
-        data = f.readlines()
+        data = f.read()
         f.seek(0)
-        for i in data:
-            if not call_send(url, key, i):
-                f.write(i + b'\n')
+
+        n = struct.unpack('<H', data[0:2])
+        count = 2
+        while count + (n * 6) + 8 < len(data):
+            if not call_send(url, key, data[count:count+8+6*n]):
+                f.write(data[count:count+8+6*n] + b'\n')
+
+            count = count+8+6*n+2
+            n = struct.unpack('<H', data[count-2:count])
+        
         f.truncate()
 
 
-def call_send(url, key, data):
+def call_send(url, key, data, num_meas):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
     runs until it receives a good code from the server. """
     count = 0
@@ -26,7 +33,7 @@ def call_send(url, key, data):
     if count == 100:
         try:
             with open(fname, 'a+b') as f:
-                f.write(data + b'\n')
+                f.write(struct.pack('<H', num_meas) + data + b'\n')
             print("Failed Connection. Saved to " + fname)
             return False
         except FileNotFoundError:
