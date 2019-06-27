@@ -37,6 +37,7 @@ def write_unsent(fname, num_meas, data):
         print('Not Sent Directory does not exist. ')
         os._exit(1)
 
+
 def call_send(url, key, data, num_meas):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
     runs until it receives a good code from the server. """
@@ -50,7 +51,7 @@ def call_send(url, key, data, num_meas):
     with open(fname, 'w') as f:
         f.write('')
 
-    if len(data) > 2:
+    if len(d) > 2:
         n = struct.unpack('<H', d[0:2])[0]
         ind = 2
         while ind + 6*n + 8 < len(d):
