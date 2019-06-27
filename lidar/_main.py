@@ -44,6 +44,8 @@ def main():
     t = None
     meas = None
 
+    print('Starting at:', dt.datetime.utcnow())
+
     try:
         while True:
             t_vec, meas_vec = [], []  # Initialize vectors
