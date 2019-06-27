@@ -26,8 +26,6 @@ def save_old(url, key):
             break
         n = struct.unpack('<H', data[count-2:count])[0]
 
-    f.truncate()
-
 
 def call_send(url, key, data, num_meas):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
