@@ -68,8 +68,6 @@ def call_send(url, key, data, num_meas):
         count += 1
     if count == 100:
         write_unsent(fname, num_meas, data)
-    print("Packet sent at", dt.datetime.utcnow())
-    return True
 
 
 def send(url, key, data):
@@ -83,6 +81,7 @@ def send(url, key, data):
         return False
     if upload.status_code != 201:
         return False
+    print("Packet sent at", dt.datetime.utcnow())
     return True
 
 
