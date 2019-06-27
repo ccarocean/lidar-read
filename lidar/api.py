@@ -16,11 +16,11 @@ def save_old(url, key):
 
     if len(data) < 2:
         return
-    
+
     n = struct.unpack('<H', data[0:2])[0]
     count = 2
     while count + 6*n + 8 < len(data):
-        call_send(url, key, data[count:count+8+6*n])
+        call_send(url, key, data[count:count+8+6*n], n)
         count = count+8+6*n+2
         n = struct.unpack('<H', data[count-2:count])
 
