@@ -28,24 +28,18 @@ def call_send(url, key, data, num_meas):
     with open(fname, 'w') as f:
         f.write('')
 
-    print('Length of d:', len(d))
     if len(d) > 2:
         n = struct.unpack('<H', d[0:2])[0]
-        print('Number of measurements:', n)
         ind = 2
         while ind + 6*n + 8 <= len(d):
-            print('Index:', ind)
             while not send(url, key, d[ind:ind+8+6*n]) and count < 100:
                 count += 1
-            print(count)
             if count == 100:
-                print("woo")
                 write_unsent(fname, n, d[ind:ind+8+6*n])
             ind = ind+8+6*n+2
             if ind >= len(d):
                 break
             n = struct.unpack('<H', d[ind-2:ind])[0]
-    print('number of measurements current:', num_meas)
     while not send(url, key, data) and count < 100:
         count += 1
     if count == 100:
