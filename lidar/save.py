@@ -10,10 +10,9 @@ def save_lidar(data, data_directory, loc):
         print("No data in LiDAR packet. ")
         return
     unix_time = struct.unpack('<q', data[0:8])[0]  # First thing is unix time
-    print(unix_time)
-     # Find day and hour
+
+    # Find day and hour
     dayhour = dt.datetime(1970, 1, 1) + dt.timedelta(seconds=unix_time)
-    print(dayhour)
     tvec, measvec = [], []  # Initialization
     num = (len(data)-8)/6  # Number of measurements
     for i in range(int(num)):
