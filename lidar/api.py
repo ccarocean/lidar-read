@@ -27,10 +27,11 @@ def call_send(url, key, data):
     with open(fname, 'w') as f:
         f.write('')
 
+    print(len(d))
+
     if len(d) > 4:
         ind = 4
-        n = struct.unpack('<L', d[0:4])[0]
-        while ind + n <= len(d):
+        while ind <= len(d):
             count = 0
             n = struct.unpack('<L', d[ind-4:ind])[0]
             while not send(url, key, d[ind:ind+n]) and count < 10:
@@ -38,7 +39,7 @@ def call_send(url, key, data):
             if count == 10:
                 write_unsent(fname, n, d[ind:ind+n])
             ind = ind + n + 4
-
+    
     count = 0
     while not send(url, key, data) and count < 10:
         count += 1
