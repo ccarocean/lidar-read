@@ -27,8 +27,6 @@ def call_send(url, key, data):
     with open(fname, 'w') as f:
         f.write('')
 
-    print(len(d))
-
     ind = 4
     while ind <= len(d):
         count = 0
@@ -58,7 +56,7 @@ def send(url, key, data):
         return False
     if upload.status_code != 201:
         return False
-    print("Packet sent at", dt.datetime.utcnow())
+    print("LiDAR Packet sent at", dt.datetime.utcnow())
     return True
 
 

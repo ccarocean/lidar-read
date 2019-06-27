@@ -26,3 +26,4 @@ def save_lidar(data, data_directory, loc):
     except FileNotFoundError:
         print("Data directory is bad. Try again. ")
         sys.exit(0)
+    print('LiDAR data saved locally. ')
