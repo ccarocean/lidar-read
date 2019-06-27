@@ -8,7 +8,7 @@ import os
 def write_unsent(fname, num_meas, data):
     try:
         with open(fname, 'a+b') as f:
-            f.write(struct.pack('<H', num_meas) + data + b'\n')
+            f.write(struct.pack('<H', num_meas) + data)
         return False
     except FileNotFoundError:
         print('Not Sent Directory does not exist. ')
