@@ -27,6 +27,16 @@ def save_old(url, key):
         n = struct.unpack('<H', data[count-2:count])[0]
 
 
+def write_unsent(fname, num_meas, data)
+    try:
+        with open(fname, 'a+b') as f:
+            f.write(struct.pack('<H', num_meas) + data + b'\n')
+        print("Failed Connection. Saved to " + fname)
+        return False
+    except FileNotFoundError:
+        print('Not Sent Directory does not exist. ')
+        os._exit(1)
+
 def call_send(url, key, data, num_meas):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
     runs until it receives a good code from the server. """
@@ -41,26 +51,22 @@ def call_send(url, key, data, num_meas):
         f.write('')
 
     if len(data) > 2:
-        n = struct.unpack('<H', data[0:2])[0]
-        count = 2
-        while count + 6*n + 8 < len(data):
-            call_send(url, key, data[count:count+8+6*n], n)
-            count = count+8+6*n+2
-            if count >= len(data):
+        n = struct.unpack('<H', d[0:2])[0]
+        ind = 2
+        while ind + 6*n + 8 < len(d):
+            while not send(url, key, d[ind:ind+8+6*n]) and count < 100:
+                count += 1
+            if count == 100:
+                write_unsent(fname, n, d[ind:ind+8+6*n])
+            ind = ind+8+6*n+2
+            if ind >= len(data):
                 break
-            n = struct.unpack('<H', data[count-2:count])[0]
+            n = struct.unpack('<H', data[ind-2:ind])[0]
 
     while not send(url, key, data) and count < 100:
         count += 1
     if count == 100:
-        try:
-            with open(fname, 'a+b') as f:
-                f.write(struct.pack('<H', num_meas) + data + b'\n')
-            print("Failed Connection. Saved to " + fname)
-            return False
-        except FileNotFoundError:
-            print('Not Sent Directory does not exist. ')
-            os._exit(1)
+        write_unsent(fname, num_meas, data)
     print("Packet sent at", dt.datetime.utcnow())
     return True
 
