@@ -33,7 +33,7 @@ def call_send(url, key, data, num_meas):
         n = struct.unpack('<H', d[0:2])[0]
         print('Number of measurements:', n)
         ind = 2
-        while ind + 6*n + 8 < len(d):
+        while ind + 6*n + 8 <= len(d):
             print('Index:', ind)
             while not send(url, key, d[ind:ind+8+6*n]) and count < 100:
                 count += 1
