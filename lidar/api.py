@@ -7,7 +7,7 @@ import os
 
 def write_unsent(fname, num_meas, data):
     try:
-        with open(fname, 'ab+') as f:
+        with open(fname, 'ab') as f:
             f.write(struct.pack('<H', num_meas) + data)
         return False
     except FileNotFoundError:
