@@ -15,10 +15,9 @@ def write_unsent(fname, l, data):
         os._exit(1)
 
 
-def call_send(url, key, data, num_meas):
+def call_send(url, key, data):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
     runs until it receives a good code from the server. """
-    count = 0
     fname = '/home/ccaruser/not-sent/lidar.bin'
 
     # Check if there is old unsent data
@@ -31,8 +30,8 @@ def call_send(url, key, data, num_meas):
     if len(d) > 4:
         ind = 4
         n = struct.unpack('<L', d[0:4])[0]
-        import pdb; pdb.set_trace()
         while ind + n <= len(d):
+            count = 0
             n = struct.unpack('<L', d[ind-4:ind])[0]
             while not send(url, key, d[ind:ind+n]) and count < 100:
                 count += 1
@@ -40,6 +39,7 @@ def call_send(url, key, data, num_meas):
                 write_unsent(fname, n, d[ind:ind+n])
             ind = ind + n + 4
 
+    count = 0
     while not send(url, key, data) and count < 100:
         count += 1
     if count == 100:

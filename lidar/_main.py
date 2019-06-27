@@ -72,7 +72,7 @@ def main():
             p = lidar_packet(hour, t_vec, meas_vec)
 
             # Send API post in thread
-            t2 = Thread(target=call_send, args=(url, keys[loc], p, len(meas_vec),))
+            t2 = Thread(target=call_send, args=(url, keys[loc], p,))
             t2.start()
 
             t3 = Thread(target=save_lidar, args=(p, data_dir, loc,))
