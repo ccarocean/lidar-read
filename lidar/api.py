@@ -50,6 +50,7 @@ def lidar_packet(dayhour, microseconds, measurements):
 
     for i, j in zip(microseconds, measurements):
         if i < 2**32:
+            print(i, j)
             data = data + struct.pack('<LH', int(i), int(j))  # pack each measurement
         else:
             print(i, j)
