@@ -7,7 +7,7 @@ import os
 
 def save_old(url, key):
     fname = '/home/ccaruser/not-sent/lidar.bin'
-    with open(fname, 'rb') as f:
+    with open(fname, 'r+b') as f:
         data = f.readlines()
         f.seek(0)
         for i in data:
