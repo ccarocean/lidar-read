@@ -70,10 +70,6 @@ def main():
             t2 = Thread(target=call_send, args=(url, keys[loc], p, len(meas_vec)))
             t2.start()
 
-            # Send failed api posts in thread
-            t3 = Thread(target=save_old, args=(url, keys[loc],))
-            t3.start()
-
     finally:
         # Turn led off when program ends
         led.set_low()

@@ -32,6 +32,24 @@ def call_send(url, key, data, num_meas):
     runs until it receives a good code from the server. """
     count = 0
     fname = '/home/ccaruser/not-sent/lidar.bin'
+
+    # Check if there is old unsent data
+    with open(fname, 'r+b') as f:
+        d = f.read()
+
+    with open(fname, 'w') as f:
+        f.write('')
+
+    if len(data) > 2:
+        n = struct.unpack('<H', data[0:2])[0]
+        count = 2
+        while count + 6*n + 8 < len(data):
+            call_send(url, key, data[count:count+8+6*n], n)
+            count = count+8+6*n+2
+            if count >= len(data):
+                break
+            n = struct.unpack('<H', data[count-2:count])[0]
+
     while not send(url, key, data) and count < 100:
         count += 1
     if count == 100:
