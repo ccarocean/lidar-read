@@ -27,7 +27,7 @@ def save_old(url, key):
         n = struct.unpack('<H', data[count-2:count])[0]
 
 
-def write_unsent(fname, num_meas, data)
+def write_unsent(fname, num_meas, data):
     try:
         with open(fname, 'a+b') as f:
             f.write(struct.pack('<H', num_meas) + data + b'\n')
