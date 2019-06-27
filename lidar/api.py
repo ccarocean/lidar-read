@@ -14,6 +14,9 @@ def save_old(url, key):
     with open(fname, 'w') as f:
         f.write('')
 
+    if len(data) < 2:
+        return
+    
     n = struct.unpack('<H', data[0:2])[0]
     count = 2
     while count + 6*n + 8 < len(data):
