@@ -5,7 +5,7 @@ from queue import Queue
 from threading import Thread
 from .led import LED
 from .collect import collect_data
-from .api import call_send, lidar_packet, save_old
+from .api import call_send, lidar_packet
 
 
 def read_key(fname):
