@@ -2,7 +2,7 @@ import requests
 import jwt
 import datetime as dt
 import struct
-import sys
+import os
 
 
 def call_send(url, key, data):
@@ -19,7 +19,7 @@ def call_send(url, key, data):
             print("Failed Connection. Saved to " + fname)
         except FileNotFoundError:
             print('Not Sent Directory does not exist. ')
-            sys.exit(0)
+            os._exit(1)
 
 
 def send(url, key, data):
@@ -47,6 +47,11 @@ def lidar_packet(dayhour, microseconds, measurements):
     time_header = int((dayhour - dt.datetime(1970, 1, 1)).total_seconds())
     header = struct.pack('<q', time_header)  # Start with 64 bit unix time
     data = b''
+
     for i, j in zip(microseconds, measurements):
-        data = data + struct.pack('<LH', int(i), int(j))  # pack each measurement
+        if i < 2**32:
+            data = data + struct.pack('<LH', int(i), int(j))  # pack each measurement
+        else:
+            print(i, j)
+            os._exit(1)
     return header + data
