@@ -31,7 +31,7 @@ def call_send(url, key, data, num_meas):
     print('Length of d:', len(d))
     if len(d) > 2:
         n = struct.unpack('<H', d[0:2])[0]
-        print('Number of measurements: ' + n)
+        print('Number of measurements:', n)
         ind = 2
         while ind + 6*n + 8 < len(d):
             print('Index:', ind)
