@@ -1,5 +1,5 @@
 import datetime as dt
-import sys
+import os
 import argparse
 from queue import Queue
 from threading import Thread
@@ -16,7 +16,7 @@ def read_key(fname):
             key = f.read()
     except FileNotFoundError:
         print('Bad key location. ')
-        sys.exit(0)
+        os._exit(1)
     return key
 
 
@@ -27,7 +27,7 @@ def main():
     parser.add_argument('--led', type=int, default=21, help='LED pin. Default is 21. ')
     args = parser.parse_args()
 
-    led = LED(args.led)  # initialize LED with pin 20
+    led = LED(args.led)  # initialize LED
 
     led.switch()
     loc = args.location

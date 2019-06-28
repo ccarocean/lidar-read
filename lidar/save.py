@@ -1,7 +1,6 @@
 import datetime as dt
 import os
 import struct
-import sys
 
 
 def save_lidar(data, data_directory, loc):
@@ -20,10 +19,10 @@ def save_lidar(data, data_directory, loc):
         tvec.append(dayhour + dt.timedelta(microseconds=t))
         measvec.append(meas)
     try:
-        with open(os.path.join(data_directory, loc, 'lidar', dayhour.strftime('%Y-%m-%d.txt')), 'a+') as f:
+        with open(os.path.join(data_directory, 'lidar', dayhour.strftime('%Y-%m-%d.txt')), 'a+') as f:
             for i, j in zip(tvec, measvec):
                 f.write(f'{i} {j}\n')
     except FileNotFoundError:
         print("Data directory is bad. Try again. ")
-        sys.exit(0)
+        os._exit(1)
     print('LiDAR data saved locally. ')
