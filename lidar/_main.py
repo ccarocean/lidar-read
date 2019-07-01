@@ -31,7 +31,7 @@ def main():
 
     led.switch()
     loc = args.location
-    keys = {'harv': read_key('harv.key')}
+    key = read_key('/home/ccaruser/.keys/' + loc + '.key')
 
     q = Queue()  # initialize queue for receiving lidar data
     th = Thread(target=collect_data, args=(q,))  # start thread for data collection
@@ -72,7 +72,7 @@ def main():
             p = lidar_packet(hour, t_vec, meas_vec)
 
             # Send API post in thread
-            t2 = Thread(target=call_send, args=(url, keys[loc], p,))
+            t2 = Thread(target=call_send, args=(url, key, p,))
             t2.start()
 
             t3 = Thread(target=save_lidar, args=(p, data_dir, loc,))
