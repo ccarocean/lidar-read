@@ -28,8 +28,8 @@ def main():
     args = parser.parse_args()
 
     led = LED(args.led)  # initialize LED
-
-    led.switch()
+    led.set_high()
+    
     loc = args.location
     key = read_key('/home/ccaruser/.keys/' + loc + '.key')
 
