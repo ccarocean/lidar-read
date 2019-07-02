@@ -5,44 +5,23 @@ import struct
 import os
 
 
-def write_unsent(fname, l, data):
-    try:
-        with open(fname, 'ab') as f:
-            f.write(struct.pack('<L', l) + data)
-        return False
-    except FileNotFoundError:
-        print('Not Sent Directory does not exist. ')
-        os._exit(1)
-
-
-def call_send(url, key, data):
+def call_send(url, key, data, t, cache):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
     runs until it receives a good code from the server. """
-    fname = '/home/ccaruser/not-sent/lidar.bin'
-
-    # Check if there is old unsent data
-    with open(fname, 'rb') as f:
-        d = f.read()
-
-    with open(fname, 'w') as f:
-        f.write('')
-
-    ind = 4
-    while ind <= len(d):
+    # Send old data
+    for i in cache:
         count = 0
-        n = struct.unpack('<L', d[ind-4:ind])[0]
-        while not send(url, key, d[ind:ind+n]) and count < 10:
+        while not send(url, key, cache[i]) and count < 10:
             count += 1
-        if count == 10:
-            write_unsent(fname, n, d[ind:ind+n])
-        ind = ind + n + 4
+        if count < 10:  # If send works
+            del cache[i]
 
+    # Send current data
     count = 0
     while not send(url, key, data) and count < 10:
         count += 1
     if count == 10:
-        write_unsent(fname, len(data), data)
-        print("Failed Connection. Saved to " + fname)
+        cache[t] = data
 
 
 def send(url, key, data):

@@ -3,10 +3,10 @@ import os
 import argparse
 from queue import Queue
 from threading import Thread
+import diskcache as dc
 from .led import LED
 from .collect import collect_data
 from .api import call_send, lidar_packet
-from .save import save_lidar
 
 
 def read_key(fname):
@@ -29,7 +29,7 @@ def main():
 
     led = LED(args.led)  # initialize LED
     led.set_high()
-    
+
     loc = args.location
     key = read_key('/home/ccaruser/.keys/' + loc + '.key')
 
@@ -40,12 +40,12 @@ def main():
     # url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc  # Web server location
     url = 'http://127.0.0.1:5000/lidar/' + loc
 
-    data_dir = '/home/ccaruser/data2'
-
     led_timer = dt.datetime.utcnow()
 
     t = None
     meas = None
+
+    cache = dc.Cache('/hvar/tmp/unsent_lidar')
 
     print('Starting at:', dt.datetime.utcnow())
 
@@ -72,11 +72,9 @@ def main():
             p = lidar_packet(hour, t_vec, meas_vec)
 
             # Send API post in thread
-            t2 = Thread(target=call_send, args=(url, key, p,))
+            t2 = Thread(target=call_send, args=(url, key, p, (hour-dt.datetime(1970, 1, 1)).total_seconds() + t_vec[0],
+                                                cache))
             t2.start()
-
-            t3 = Thread(target=save_lidar, args=(p, data_dir, loc,))
-            t3.start()
 
     finally:
         # Turn led off when program ends
