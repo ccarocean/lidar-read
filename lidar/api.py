@@ -22,6 +22,7 @@ def call_send(url, key, data, t, cache):
         count += 1
     if count == 10:
         cache[t] = data
+        print('No connection made. Data saved to cache. ')
 
 
 def send(url, key, data):
