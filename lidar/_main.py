@@ -45,7 +45,7 @@ def main():
     t = None
     meas = None
 
-    cache = dc.Cache('/hvar/tmp/unsent_lidar')
+    cache = dc.Cache('/var/tmp/unsent_lidar')
 
     print('Starting at:', dt.datetime.utcnow())
 
