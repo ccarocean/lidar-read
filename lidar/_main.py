@@ -37,8 +37,8 @@ def main():
     th = Thread(target=collect_data, args=(q,))  # start thread for data collection
     th.start()
 
-    # url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc  # Web server location
-    url = 'http://127.0.0.1:5000/lidar/' + loc
+    url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc  # Web server location
+    # url = 'http://127.0.0.1:5000/lidar/' + loc
 
     led_timer = dt.datetime.utcnow()
 
