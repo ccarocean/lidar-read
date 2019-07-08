@@ -23,7 +23,7 @@ def read_key(fname):
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--location', type=str, help='GPS location (ex. harv)')
+    parser.add_argument('-l', '--location', type=str, help='GPS location (ex. harv)', required=True)
     parser.add_argument('--led', type=int, default=21, help='LED pin. Default is 21.')
     args = parser.parse_args()
 
