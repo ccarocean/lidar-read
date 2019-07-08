@@ -2,3 +2,4 @@ pyjwt[crypto]
 requests
 smbus
 RPi.GPIO
+diskcache

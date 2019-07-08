@@ -30,7 +30,8 @@ setup(
         'pyjwt[crypto]',
         'requests',
         'smbus',
-        'RPi.GPIO'
+        'RPi.GPIO',
+        'diskcache',
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
