@@ -20,7 +20,7 @@ Inside Virtual Environment:
 
 .. code-block::
 
-    setup.py install
+    python setup.py install
 
 
 How to run
@@ -31,11 +31,11 @@ Source Virtual Environment:
 
     source .venv/bin/activate
 
-Run as root:
+Run:
 
 .. code-block::
 
-    sudo .venv/bin/python -m lidar
+    lidar -l <location>
 
 
 Related Files
