@@ -38,8 +38,6 @@ def main():
     th.start()
 
     url = 'https://cods.colorado.edu/api/gpslidar/lidar/' + loc  # Web server location
-    print(url)
-    # url = 'http://127.0.0.1:5000/lidar/' + loc
 
     led_timer = dt.datetime.utcnow()
 
