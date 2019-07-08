@@ -5,23 +5,31 @@ import struct
 import os
 
 
+def save_to_dc(cache, t, data):
+    cache[bytes(str(t), 'utf-8')] = data
+
+
+def send_old(cache, url, key):
+    for i in cache:
+        count = 0
+        while not send(url, key, cache[i], 'Old ') and count < 10:
+            count += 1
+        if count < 10:
+            del cache[i]
+
+
 def call_send(url, key, data, t, cache):
     """ Function for sending packets. This is called in a separate thread to ensure all data is collected. This function
     runs until it receives a good code from the server. """
     # Send old data
-    for i in cache:
-        count = 0
-        while not send(url, key, cache[i], 'Old') and count < 10:
-            count += 1
-        if count < 10:  # If send works
-            del cache[i]
+    send_old(cache, url, key)
 
     # Send current data
     count = 0
     while not send(url, key, data, 'New') and count < 10:
         count += 1
     if count == 10:
-        cache[bytes(str(t), 'utf-8')] = data
+        save_to_dc(cache, t, data)
         print('No connection made. Data saved to cache. ')
 
 

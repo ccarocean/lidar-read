@@ -6,7 +6,7 @@ from threading import Thread
 import diskcache as dc
 from .led import LED
 from .collect import collect_data
-from .api import call_send, lidar_packet
+from .api import call_send, lidar_packet, save_to_dc, send_old
 
 
 def read_key(fname):
@@ -48,6 +48,9 @@ def main():
 
     cache = dc.Cache('/var/tmp/unsent_lidar')
 
+    t2 = Thread(target=send_old, args=(cache, url, key))
+    t2.start()
+
     print('Starting at:', dt.datetime.utcnow())
 
     try:
@@ -73,9 +76,12 @@ def main():
             p = lidar_packet(hour, t_vec, meas_vec)
 
             # Send API post in thread
-            t2 = Thread(target=call_send, args=(url, key, p, (hour-dt.datetime(1970, 1, 1)).total_seconds() + t_vec[0],
-                                                cache))
-            t2.start()
+            if not t2.isAlive():
+                t2 = Thread(target=call_send, args=(url, key, p, (hour-dt.datetime(1970, 1, 1)).total_seconds() + t_vec[0],
+                                                    cache))
+                t2.start()
+            else:
+                save_to_dc(cache, (hour-dt.datetime(1970, 1, 1)).total_seconds() + t_vec[0], p)
 
     finally:
         # Turn led off when program ends
