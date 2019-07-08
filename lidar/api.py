@@ -35,6 +35,7 @@ def send(url, key, data, s):
     except:
         return False
     print(upload.status_code)
+    upload.raise_for_status()
     if upload.status_code != 201:
         return False
     print(s + " LiDAR Packet sent at", dt.datetime.utcnow())
