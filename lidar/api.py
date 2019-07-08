@@ -34,6 +34,7 @@ def send(url, key, data, s):
         upload = requests.post(url, data=data, headers=headers)  # Send API post request
     except:
         return False
+    print(upload.status_code)
     if upload.status_code != 201:
         return False
     print(s + " LiDAR Packet sent at", dt.datetime.utcnow())
