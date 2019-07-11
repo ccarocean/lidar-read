@@ -23,7 +23,6 @@ def read_key(fname):
 
 def main():
     def_loc = socket.gethostname()[0:4]
-    print(def_loc)
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('-l', '--location', type=str, default=def_loc,
