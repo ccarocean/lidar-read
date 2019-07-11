@@ -52,7 +52,7 @@ def main():
     t2 = Thread(target=send_old, args=(cache, url, key))
     t2.start()
 
-    print('Starting at:', dt.datetime.utcnow())
+    print('Starting ' + loc + ' LiDAR at:', dt.datetime.utcnow())
 
     try:
         while True:
