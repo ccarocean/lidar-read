@@ -1,5 +1,6 @@
 import datetime as dt
 import os
+import socket
 import argparse
 from queue import Queue
 from threading import Thread
@@ -21,9 +22,11 @@ def read_key(fname):
 
 
 def main():
+    def_loc = socket.gethostname()[0:4]
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--location', type=str, help='GPS location (ex. harv)', required=True)
+    parser.add_argument('-l', '--location', type=str,
+                        help='GPS location. Default is first four letters of hostname (' + def_loc + ')')
     parser.add_argument('--led', type=int, default=21, help='LED pin. Default is 21.')
     args = parser.parse_args()
 
