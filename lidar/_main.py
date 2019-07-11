@@ -23,9 +23,10 @@ def read_key(fname):
 
 def main():
     def_loc = socket.gethostname()[0:4]
+    print(def_loc)
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--location', type=str,
+    parser.add_argument('-l', '--location', type=str, default=def_loc,
                         help='GPS location. Default is first four letters of hostname (' + def_loc + ')')
     parser.add_argument('--led', type=int, default=21, help='LED pin. Default is 21.')
     args = parser.parse_args()
