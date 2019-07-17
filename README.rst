@@ -5,12 +5,10 @@ Title: lidar-read
 
 Options
 -------
-Required argument:
-    -l LOCATION, --location LOCATION        GPS Location (ex. harv)
-
 Optional arguments:
-    -h, --help                  Show help message and exit
-    --led LED                   LED Pin. default is 21
+    -h, --help                              Show help message and exit
+    --led LED                               LED Pin. default is 21
+    -l LOCATION, --location LOCATION        GPS location. Default is first four letters of hostname (i.e. harv)
 
 
 Installation
@@ -41,7 +39,7 @@ Run:
 
 .. code-block::
 
-    lidar-read -l <location>
+    lidar-read
 
 
 Related Files
