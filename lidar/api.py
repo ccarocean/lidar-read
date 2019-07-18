@@ -11,10 +11,7 @@ def save_to_dc(cache, t, data):
 
 def send_old(cache, url, key):
     for i in cache:
-        count = 0
-        while not send(url, key, cache[i], 'Old ') and count < 10:
-            count += 1
-        if count < 10:
+        if send(url, key, cache[i], 'Old'):
             del cache[i]
 
 
@@ -25,10 +22,7 @@ def call_send(url, key, data, t, cache):
     send_old(cache, url, key)
 
     # Send current data
-    count = 0
-    while not send(url, key, data, 'New') and count < 10:
-        count += 1
-    if count == 10:
+    if not send(url, key, data, 'New'):
         save_to_dc(cache, t, data)
         print('No connection made. Data saved to cache. ')
 
