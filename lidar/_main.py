@@ -5,9 +5,12 @@ import argparse
 from queue import Queue
 from threading import Thread
 import diskcache as dc
+import logging
 from .led import LED
 from .collect import collect_data
 from .api import call_send, lidar_packet, save_to_dc, send_old
+
+logging.basicConfig(filename='/home/ccaruser/lidar.log', level=logging.DEBUG)
 
 
 def read_key(fname):
@@ -16,7 +19,7 @@ def read_key(fname):
         with open(fname, 'r') as f:
             key = f.read()
     except FileNotFoundError:
-        print('Bad key location. ')
+        logging.critical('Bad key location. ')
         os._exit(1)
     return key
 
@@ -52,7 +55,7 @@ def main():
     t2 = Thread(target=send_old, args=(cache, url, key))
     t2.start()
 
-    print('Starting ' + loc + ' LiDAR at:', dt.datetime.utcnow())
+    logging.info('Starting ' + loc + ' LiDAR at:', dt.datetime.utcnow())
 
     try:
         while True:

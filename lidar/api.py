@@ -3,6 +3,8 @@ import jwt
 import datetime as dt
 import struct
 import os
+import logging
+logging.basicConfig(filename='/home/ccaruser/lidar.log', level=logging.DEBUG)
 
 
 def save_to_dc(cache, t, data):
@@ -24,7 +26,7 @@ def call_send(url, key, data, t, cache):
     # Send current data
     if not send(url, key, data, 'New'):
         save_to_dc(cache, t, data)
-        print('No connection made. Data saved to cache. ')
+        logging.info('No connection made. Data saved to cache. ')
 
 
 def send(url, key, data, s):
@@ -38,7 +40,7 @@ def send(url, key, data, s):
         return False
     if upload.status_code != 201:
         return False
-    print(s + " LiDAR Packet sent at", dt.datetime.utcnow())
+    logging.info(s + " LiDAR Packet sent at", dt.datetime.utcnow())
     return True
 
 
@@ -58,6 +60,6 @@ def lidar_packet(dayhour, microseconds, measurements):
         if i > 0:
             data = data + struct.pack('<LH', int(i), int(j))  # pack each measurement
         else:
-            print('Negative time:', i, j)
+            logging.critical('Negative time:', i, j)
             os._exit(1)
     return header + data
