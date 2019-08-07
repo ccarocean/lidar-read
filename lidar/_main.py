@@ -55,7 +55,7 @@ def main():
     t2 = Thread(target=send_old, args=(cache, url, key))
     t2.start()
 
-    logging.info('Starting ' + loc + ' LiDAR at:', dt.datetime.utcnow())
+    logging.info('Starting ') # + loc + ' LiDAR at:', dt.datetime.utcnow())
 
     try:
         while True:
