@@ -40,7 +40,7 @@ def send(url, key, data, s):
         return False
     if upload.status_code != 201:
         return False
-    logging.info(s + " LiDAR Packet sent at", dt.datetime.utcnow())
+    logging.info(s + " LiDAR Packet sent at " + str(dt.datetime.utcnow()))
     return True
 
 
