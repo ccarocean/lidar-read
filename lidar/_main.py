@@ -10,7 +10,7 @@ from .led import LED
 from .collect import collect_data
 from .api import call_send, lidar_packet, save_to_dc, send_old
 
-logging.basicConfig(filename='/home/ccaruser/lidar.log', level=logging.DEBUG)
+logging.basicConfig(filename='/home/ccaruser/lidar.log', level=logging.INFO)
 
 
 def read_key(fname):

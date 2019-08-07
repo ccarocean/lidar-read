@@ -4,7 +4,7 @@ import datetime as dt
 import struct
 import os
 import logging
-logging.basicConfig(filename='/home/ccaruser/lidar.log', level=logging.DEBUG)
+logging.basicConfig(filename='/home/ccaruser/lidar.log', level=logging.INFO)
 
 
 def save_to_dc(cache, t, data):
