@@ -68,9 +68,9 @@ def main():
             # Take data until minute is over
             if not t:
                 try:
-                    t, meas = q.get(timeout=3)  # Get data from queue
+                    t, meas = q.get(timeout=1)  # Get data from queue
                 except Empty:
-                    logging.exception('Queue Empty (Why?)')
+                    logging.exception('Queue Empty (Why?). Exiting. ')
                     sys.exit(1)
             while t < end:
                 meas_vec.append(meas)
@@ -79,7 +79,7 @@ def main():
                     led.switch()
                     led_timer = dt.datetime.utcnow()
                 try:
-                    t, meas = q.get(timeout=3)  # Get data from queue
+                    t, meas = q.get(timeout=1)  # Get data from queue
                 except Empty:
                     logging.exception('Queue Empty (Why?). Exiting. ')
                     sys.exit(1)
