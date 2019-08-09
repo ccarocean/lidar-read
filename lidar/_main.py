@@ -1,6 +1,5 @@
 import datetime as dt
 import os
-import sys
 import socket
 import argparse
 from queue import Queue, Empty
@@ -71,7 +70,7 @@ def main():
                     t, meas = q.get(timeout=1)  # Get data from queue
                 except Empty:
                     logging.exception('Queue Empty (Why?). Exiting. ')
-                    sys.exit(1)
+                    os._exit(1)
             while t < end:
                 meas_vec.append(meas)
                 t_vec.append((t-hour).total_seconds() * 10**6)  # Append microseconds since beginning of the hour
@@ -82,7 +81,7 @@ def main():
                     t, meas = q.get(timeout=1)  # Get data from queue
                 except Empty:
                     logging.exception('Queue Empty (Why?). Exiting. ')
-                    sys.exit(1)
+                    os._exit(1)
 
             # Put data in byte packet
             p = lidar_packet(hour, t_vec, meas_vec)
