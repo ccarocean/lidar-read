@@ -2,7 +2,7 @@ import datetime as dt
 import os
 import socket
 import argparse
-from queue import Queue
+from queue import Queue, Empty
 from threading import Thread
 import diskcache as dc
 import logging
@@ -66,7 +66,10 @@ def main():
             end = minute + dt.timedelta(minutes=1)  # end of current packet of data
             # Take data until minute is over
             if not t:
-                t, meas = q.get(timeout=1)  # Get data from queue
+                try:
+                    t, meas = q.get(timeout=1)  # Get data from queue
+                except Empty:
+                    logging.warning('Queue Empty (Why?)')
             while t < end:
                 meas_vec.append(meas)
                 t_vec.append((t-hour).total_seconds() * 10**6)  # Append microseconds since beginning of the hour
@@ -74,7 +77,10 @@ def main():
                     led.switch()
                     led_timer = dt.datetime.utcnow()
                 q.task_done()
-                t, meas = q.get(timeout=1)  # Get data from queue
+                try:
+                    t, meas = q.get(timeout=1)  # Get data from queue
+                except Empty:
+                    logging.warning('Queue Empty (Why?)')       
 
             # Put data in byte packet
             p = lidar_packet(hour, t_vec, meas_vec)
