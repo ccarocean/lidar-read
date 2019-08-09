@@ -78,6 +78,9 @@ def main():
                     led_timer = dt.datetime.utcnow()
                 try:
                     q.task_done()
+                except ValueError:
+                    pass
+                try:
                     t, meas = q.get(timeout=3)  # Get data from queue
                 except Empty:
                     logging.critical('Queue Empty (Why?)')
