@@ -81,7 +81,7 @@ def main():
                 try:
                     t, meas = q.get(timeout=3)  # Get data from queue
                 except Empty:
-                    logging.exception('Queue Empty (Why?)')
+                    logging.exception('Queue Empty (Why?). Exiting. ')
                     sys.exit(1)
 
             # Put data in byte packet
