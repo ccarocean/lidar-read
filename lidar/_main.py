@@ -1,5 +1,6 @@
 import datetime as dt
 import os
+import sys
 import socket
 import argparse
 from queue import Queue, Empty
@@ -69,7 +70,8 @@ def main():
                 try:
                     t, meas = q.get(timeout=3)  # Get data from queue
                 except Empty:
-                    logging.warning('Queue Empty (Why?)')
+                    logging.exception('Queue Empty (Why?)')
+                    sys.exit(1)
             while t < end:
                 meas_vec.append(meas)
                 t_vec.append((t-hour).total_seconds() * 10**6)  # Append microseconds since beginning of the hour
@@ -77,13 +79,10 @@ def main():
                     led.switch()
                     led_timer = dt.datetime.utcnow()
                 try:
-                    q.task_done()
-                except ValueError:
-                    pass
-                try:
                     t, meas = q.get(timeout=3)  # Get data from queue
                 except Empty:
-                    logging.critical('Queue Empty (Why?)')
+                    logging.exception('Queue Empty (Why?)')
+                    sys.exit(1)
 
             # Put data in byte packet
             p = lidar_packet(hour, t_vec, meas_vec)
