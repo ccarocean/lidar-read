@@ -67,7 +67,7 @@ def main():
             # Take data until minute is over
             if not t:
                 try:
-                    t, meas = q.get(timeout=1)  # Get data from queue
+                    t, meas = q.get(timeout=3)  # Get data from queue
                 except Empty:
                     logging.warning('Queue Empty (Why?)')
             while t < end:
@@ -78,7 +78,7 @@ def main():
                     led_timer = dt.datetime.utcnow()
                 q.task_done()
                 try:
-                    t, meas = q.get(timeout=1)  # Get data from queue
+                    t, meas = q.get(timeout=3)  # Get data from queue
                 except Empty:
                     logging.warning('Queue Empty (Why?)')
 
