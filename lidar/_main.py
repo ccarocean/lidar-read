@@ -80,7 +80,7 @@ def main():
                 try:
                     t, meas = q.get(timeout=1)  # Get data from queue
                 except Empty:
-                    logging.warning('Queue Empty (Why?)')       
+                    logging.warning('Queue Empty (Why?)')
 
             # Put data in byte packet
             p = lidar_packet(hour, t_vec, meas_vec)
