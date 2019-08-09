@@ -76,11 +76,11 @@ def main():
                 if (dt.datetime.utcnow() - led_timer).total_seconds() >= 1:  # Switch led state every second
                     led.switch()
                     led_timer = dt.datetime.utcnow()
-                q.task_done()
                 try:
+                    q.task_done()
                     t, meas = q.get(timeout=3)  # Get data from queue
                 except Empty:
-                    logging.warning('Queue Empty (Why?)')
+                    logging.critical('Queue Empty (Why?)')
 
             # Put data in byte packet
             p = lidar_packet(hour, t_vec, meas_vec)
