@@ -69,7 +69,7 @@ def main():
                 try:
                     t, meas = q.get(timeout=1)  # Get data from queue
                 except Empty:
-                    logging.exception('Queue Empty (Why?). Exiting. ')
+                    logging.exception('Queue Empty. Possible issue with GPS timing. Exiting. ')
                     os._exit(1)
             while t < end:
                 meas_vec.append(meas)

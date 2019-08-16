@@ -4,7 +4,7 @@ import smbus
 
 
 class Lidar:
-    """Class for connecting with, configuring, and reading data from a Garmin LIDAR-Lite v3HP. """
+    """ Class for connecting with, configuring, and reading data from a Garmin LIDAR-Lite v3HP. """
     def __init__(self, address):
         self.bus = smbus.SMBus(1)  # Using the first I2C bus
         self.address = address  # Lidar address
