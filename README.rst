@@ -7,7 +7,7 @@ Options
 -------
 Optional arguments:
     -h, --help                              Show help message and exit
-    --led LED                               LED Pin. default is 21
+    --led LED                               LED Pin. default is 20
     -l LOCATION, --location LOCATION        GPS location. Default is first four letters of hostname (i.e. harv)
 
 

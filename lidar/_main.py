@@ -2,12 +2,15 @@ import datetime as dt
 import os
 import socket
 import argparse
-from queue import Queue
+from queue import Queue, Empty
 from threading import Thread
 import diskcache as dc
+import logging
 from .led import LED
 from .collect import collect_data
 from .api import call_send, lidar_packet, save_to_dc, send_old
+
+logging.basicConfig(filename='/home/ccaruser/lidar.log', level=logging.INFO)
 
 
 def read_key(fname):
@@ -16,7 +19,7 @@ def read_key(fname):
         with open(fname, 'r') as f:
             key = f.read()
     except FileNotFoundError:
-        print('Bad key location. ')
+        logging.critical('Bad key location. ')
         os._exit(1)
     return key
 
@@ -52,7 +55,7 @@ def main():
     t2 = Thread(target=send_old, args=(cache, url, key))
     t2.start()
 
-    print('Starting ' + loc + ' LiDAR at:', dt.datetime.utcnow())
+    logging.info('Starting ' + loc + ' LiDAR at: ' + str(dt.datetime.utcnow()))
 
     try:
         while True:
@@ -63,15 +66,22 @@ def main():
             end = minute + dt.timedelta(minutes=1)  # end of current packet of data
             # Take data until minute is over
             if not t:
-                t, meas = q.get(timeout=1)  # Get data from queue
+                try:
+                    t, meas = q.get(timeout=1)  # Get data from queue
+                except Empty:
+                    logging.exception('Queue Empty. Possible issue with GPS timing. Exiting. ')
+                    os._exit(1)
             while t < end:
                 meas_vec.append(meas)
                 t_vec.append((t-hour).total_seconds() * 10**6)  # Append microseconds since beginning of the hour
                 if (dt.datetime.utcnow() - led_timer).total_seconds() >= 1:  # Switch led state every second
                     led.switch()
                     led_timer = dt.datetime.utcnow()
-                q.task_done()
-                t, meas = q.get(timeout=1)  # Get data from queue
+                try:
+                    t, meas = q.get(timeout=1)  # Get data from queue
+                except Empty:
+                    logging.exception('Queue Empty (Why?). Exiting. ')
+                    os._exit(1)
 
             # Put data in byte packet
             p = lidar_packet(hour, t_vec, meas_vec)
