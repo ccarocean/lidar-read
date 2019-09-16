@@ -23,7 +23,7 @@ class Lidar:
             pass
         data = self.bus.read_i2c_block_data(self.address, 0x0f, 2)
         health = self.bus.read_i2c_block_data(self.address, 0x01, 1)
-        return ((data[0] << 8) + data[1], health & 0x3F)
+        return ((data[0] << 8) + data[1], health[0] & 0x3F)
 
 
 def collect_data(q):
