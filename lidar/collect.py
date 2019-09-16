@@ -31,6 +31,6 @@ def collect_data(q):
     while True:
         t = dt.datetime.utcnow()
         meas, health = lid.read_meas()  # Read LiDAR measurement
-        if (health == 0x3E or health == 0x3A) and meas > 1:
+        if (health == 0x3E or health == 0x3A) and meas > 1 and meas < 1000:
             q.put_nowait((t, meas))
             time.sleep(max((0.005 - (dt.datetime.utcnow() - t).total_seconds(), 0)))  # Sleep to get rate near 200Hz
