@@ -31,8 +31,9 @@ def collect_data(q):
     while True:
         t = dt.datetime.utcnow()
         meas, health = lid.read_meas()
-        q.put_nowait((t, meas, health))
-        time.sleep(max((0.005 - (dt.datetime.utcnow() - t).total_seconds(), 0)))
+        if health == 0x3E or health == 0x3A:
+            q.put_nowait((t, meas, health))
+            time.sleep(max((0.005 - (dt.datetime.utcnow() - t).total_seconds(), 0)))
 
 
 q = Queue()
