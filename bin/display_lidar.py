@@ -42,5 +42,5 @@ t.start()
 
 while True:
     t, meas, health = q.get()
-    print('Time:', t, ', Measurement:', meas, 'Health:', health)
+    print('Time:', t, ', Measurement:', meas, 'Health:', hex(health))
     q.task_done()
