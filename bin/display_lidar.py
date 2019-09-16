@@ -13,8 +13,8 @@ class Lidar:
         self.address = address
         if self.bus.read_byte_data(self.address, 0x02) != 0xff:
             self.bus.write_byte_data(self.address, 0x02, 0xff)
-        if self.bus.read_byte_data(self.address, 0x04) != 0x88:
-            self.bus.write_byte_data(self.address, 0x04, 0x88)
+        if self.bus.read_byte_data(self.address, 0x04) != 0x00:
+            self.bus.write_byte_data(self.address, 0x04, 0x00)
         self.bus.write_byte_data(self.address, 0x00, 0x04)
 
     def read_meas(self):

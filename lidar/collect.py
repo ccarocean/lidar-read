@@ -19,9 +19,9 @@ class Lidar:
 
     def read_meas(self):
         self.bus.write_byte_data(self.address, 0x00, 0x04)  # Ask for LiDAR measurement
-        while self.bus.read_byte_data(self.address, 0x01) & 0x01: # wait for LSB to go low
+        while self.bus.read_byte_data(self.address, 0x01) & 0x01:  # wait for LSB to go low
             pass
-        data = self.bus.read_i2c_block_data(self.address, 0x0f, 2) # Read measurement
+        data = self.bus.read_i2c_block_data(self.address, 0x0f, 2)  # Read measurement
         return (data[0] << 8) + data[1]
 
 
