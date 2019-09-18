@@ -11,9 +11,9 @@ class Lidar:
         if self.bus.read_byte_data(self.address, 0x02) != 0xff:
             # Set maximum acquisition count to highest value to hopefully allow for the highest possible accuracy
             self.bus.write_byte_data(self.address, 0x02, 0xff)
-        if self.bus.read_byte_data(self.address, 0x04) != 0x80:
+        if self.bus.read_byte_data(self.address, 0x04) != 0x08:
             # Turn on quick termination to speed up rate
-            self.bus.write_byte_data(self.address, 0x04, 0x80)
+            self.bus.write_byte_data(self.address, 0x04, 0x08)
         # Ask for first measurement from LiDAR
         self.bus.write_byte_data(self.address, 0x00, 0x04)
 
